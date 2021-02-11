@@ -18,7 +18,7 @@ classdef (Abstract=true) Shape < handle
         % Constructor
         function obj = Shape
             % For SE3
-            addpath('groupTheory')
+%             addpath('groupTheory')
             % Body frame with respect to global frame
             obj.frame = SE3;
         end
