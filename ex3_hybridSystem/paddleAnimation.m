@@ -1,11 +1,12 @@
 function paddleAnimation(p,t,X,paddleFun,exportVideo,playbackRate)
-% Spring Mass Animation Template
+% Paddle Animation 
 % Input
 %   p: Simulation constants
-%   sol: Simulation solution
+%   t: Simulation time vector
+%   X: Simulation state vector
 %   exportVideo: Should the video be exported? (True/False)
 % Output
-%   An animation
+%   An animation/File
 % By Kevin Green 2021
 
 % FPS for playback and video export
@@ -20,7 +21,7 @@ addpath(fullfile(pwd,'..', 'visualization'))
 puck_r = 0.05;
 paddle_h = 0.1;
 puckObj = SphereClass(puck_r);
-wallObj = CubeClass([100,100,0.2]);
+ceilingObj = CubeClass([100,100,0.2]);
 paddleObj = CubeClass([0.3, paddle_h]);
 
 % Create a figure handle
@@ -31,12 +32,14 @@ movegui(h.figure)
 
 % Put the shapes into a plot
 puckObj.plot
-wallObj.plot
+ceilingObj.plot
 paddleObj.plot
 
-% The wall doesn't move over time
-wallObj.globalMove(SE3([0 50+p.d_wall+puck_r 0]));
-wallObj.updatePlotData
+% Set the ceiling position, but offset it up because of the radius of
+% the puck and half the side length of the cube. The position refers to the
+% center of the cube.
+ceilingObj.globalMove(SE3([0 50+p.d_wall+puck_r 0]));
+ceilingObj.updatePlotData
 
 % Figure properties
 view(2)
@@ -64,14 +67,17 @@ for t_plt = t(1):playbackRate*1.0/FPS:t(end)
     x_pos = x_state(1);
 
     % Set axis limits (These will respect the aspect ratio set above)
-    axis([-.6 0.6 ... % x
-          -.5 1.3 ... % y
-          -1.0 1.0]);  % z
+    h.figure.Children(1).XLim = [-0.6, 0.6];
+    h.figure.Children(1).YLim = [-0.5, 1.3];
+    h.figure.Children(1).ZLim = [-1.0, 1.0];
 
-    % Mass position
+    % Set the puck position
     puckObj.resetFrame
     puckObj.globalMove(SE3([0, x_pos, 0]));
     
+    % Set the paddle position, but offset it down because of the radius of
+    % the puck and the thickness of the paddle. The position refers to the
+    % center of the rectangle.
     paddle_pos = paddleFun(t_plt);
     paddleObj.resetFrame
     paddleObj.globalMove(SE3([0, paddle_pos - puck_r - paddle_h/2, 0]))
@@ -94,4 +100,4 @@ for t_plt = t(1):playbackRate*1.0/FPS:t(end)
     end % if exportvideo
 end % t_plt it = ...
 
-end % springMassAnimation
+end % paddleAnimation
