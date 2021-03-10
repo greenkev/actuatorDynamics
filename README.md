@@ -7,7 +7,8 @@ More information on each example can be found in the readme in their respective 
 ## Example 1: Spring Mass
 This example simulated a damped spring mass in the presence of an external force. 
 
-![springMass](https://user-images.githubusercontent.com/31672703/110690996-6d613a80-8199-11eb-88a4-de6cb397bd76.gif)
+<!-- ![springMass](https://user-images.githubusercontent.com/31672703/110690996-6d613a80-8199-11eb-88a4-de6cb397bd76.gif) -->
+<a href="https://user-images.githubusercontent.com/31672703/110690996-6d613a80-8199-11eb-88a4-de6cb397bd76.gif"><img src="https://user-images.githubusercontent.com/31672703/110690996-6d613a80-8199-11eb-88a4-de6cb397bd76.gif" width="350"/></a>
 
 This example illustrates:
 - Basic usage of ODE45().
@@ -20,7 +21,8 @@ This example illustrates:
 ## Example 2: Control
 This example simulated a point mass with viscous friction moving in 2D under the influence of a 2D control force.
 
-![controlledMass](https://user-images.githubusercontent.com/31672703/110691031-77833900-8199-11eb-844a-515e47ab14c7.gif)
+<!-- ![controlledMass](https://user-images.githubusercontent.com/31672703/110691031-77833900-8199-11eb-844a-515e47ab14c7.gif) -->
+<a href="https://user-images.githubusercontent.com/31672703/110691031-77833900-8199-11eb-844a-515e47ab14c7.gif"><img src="https://user-images.githubusercontent.com/31672703/110691031-77833900-8199-11eb-844a-515e47ab14c7.gif" width="350"/></a>
 
 This example illustrates:
 - An approach to seperate command trajectory, controller and system dynamics into seperate functions.
@@ -28,7 +30,8 @@ This example illustrates:
 ## Example 3: Hybrid Simulation
 This example simulated a puck under the influence of a constant force that bounces between a moving paddle and a stationary ceiling. The paddle moves with prescribed sinusoidal motion, which can be thought of as having infinite mass and a infinitely strong actuator moving it. 
 
-![Paddle](https://user-images.githubusercontent.com/31672703/110691057-7fdb7400-8199-11eb-8688-e6eb1dfb8ae8.gif)
+<!-- ![Paddle](https://user-images.githubusercontent.com/31672703/110691057-7fdb7400-8199-11eb-8688-e6eb1dfb8ae8.gif) -->
+<a href="https://user-images.githubusercontent.com/31672703/110691057-7fdb7400-8199-11eb-8688-e6eb1dfb8ae8.gif"><img src="https://user-images.githubusercontent.com/31672703/110691057-7fdb7400-8199-11eb-8688-e6eb1dfb8ae8.gif" width="350"/></a>
 
 This example illustrates:
 - Use of event functions to halt ODE45().
