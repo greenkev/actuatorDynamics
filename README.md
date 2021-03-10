@@ -4,7 +4,7 @@ This is the repository for example MATLAB code to simulate a spring mass damper.
 This repo contains some basic utilities (groupTheory and visualization) and three examples of simulating dynamic systems.
 More information on each example can be found in the readme in their respective folder.
 
-## Example 1: Spring Mass
+## [Example 1: Spring Mass](ex1_springMass)
 This example simulated a damped spring mass in the presence of an external force. 
 
 <!-- ![springMass](https://user-images.githubusercontent.com/31672703/110690996-6d613a80-8199-11eb-88a4-de6cb397bd76.gif) -->
@@ -13,7 +13,7 @@ This example simulated a damped spring mass in the presence of an external force
 This example illustrates:
 - Basic usage of ODE45().
 - Use of the solution results structure and deval() function to sample the resulting solution.
-- Binding parameters to an autonomous function for use as the dynamics.
+- Binding parameters to an anonymous function for use as the dynamics.
 - Use of a structure for dynamics parameters.
 - Animation using our visualization interfaces and transformations.
 - Exporting a video file using MATLAB's VideoWriter().
