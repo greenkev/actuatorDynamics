@@ -6,13 +6,13 @@ X0 = [0, 0 ...  % position x, position y (m)
       0, 0];    % velocity x, velocity y (m/s)
 
 % Simulation System Constants
-p.m  = 1;  % mass (kg)
+p.m  = .5;  % mass (kg)
 p.c  = 1;  % damping (N*s/m) Note that this is in both x and y directions
 
 % Controller/Trajectory Constants
 c.Kp = 15;          % position error feedback gain (N/m)
 c.Kd = 5;           % velocity error feedback gain (N/(m/s))
-c.Kff = 1;          % feedforward acceleration gain (N/(m/s^2))
+c.Kff = 0.5;          % feedforward acceleration gain (N/(m/s^2))
 c.center = [1; 1];  % center point of the circle [position_x position_y](m)
 c.radius = 0.6;     % radius of the circle to trace (m)
 c.frequency = 4;    % angular velocity of the circle (rad/sec)
