@@ -85,6 +85,35 @@ We setup `param_dyn` to be a function handle that takes in only `(t,X)`, as ode4
 The definition of this new function handle is simply the dynamics function we define below in the file but using the `p` structure from the local scope.
 When ode45 called this `param_dyn` function it will instead call `dynamics` using the parameter structure as it existed when this handle was defined.
 
+**The Solution Results Structure**
 
+MATLAB ODE solvers can return results in two ways, either as a sampled vector array of times and states or as a structure.
+The solution structure has some key advantages that make it a good choice in many situations.
+It stores the actual integration steps that ode45 took as well as information about the integration method.
+This means that later when we sample points it uses the interpolation method connected to the actual integrator.
+It also means that we store and pass the minimal ammount of information necessary to describe the trajectory.
+To get the solution structure we have to use a timespan that consists of only the start and end points (e.g. `[t0 tf]`) instead of an array of sample times (e.g. `t0:dt:tf`).
 
+To sample the solution so we can plot the results we use the `deval( )` function.
+This code from `mainSpringMass.m` shows how to sample 500 points and plot them
+```MATLAB
+% Plot the position of the mass
+figure;
+t_plot = linspace( sol.x(1), sol.x(end), 500);
+% This evaluated the solution at the "t_plot" times. The 1 refers to the
+% first component of the state vector which is position.
+x_plot = deval(sol,t_plot,1); 
+plot(t_plot,x_plot,'-');
+```
+First we generate a list of 500 evenly spaced points over the timespan of the simulation results.
+In the `sol` structure, `sol.x` is the array of independent variables at the integration steps which in our problem is the time.
+We then call `deval( )` which will apply the correct interpolation method from the ode solver function.
+As a point of comparison we can look at what would happen if we used a naive linear interpolation between sample points.
+To make the difference clearer, we lower the ode45 absolute and relative tolerance to `1e-2`.
+The result is shown in the figure below
 
+![Comaprison between native interpolation using deval and naive linear interpolation](https://user-images.githubusercontent.com/31672703/110877590-75e76d00-828e-11eb-82be-b3811bb1aaee.png)
+
+We can see how the integrator took very large steps from to the roughness of the linear interpolation (`interp1( )`).
+However, the interpolation using `deval( )` is still quite smooth and shows the underdamped behavior we expect from this example.
+There are places where it makes more sense to sample the solution when we call the ode45 function, such as in example 3 where we work with a hybrid system.
