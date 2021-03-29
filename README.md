@@ -1,5 +1,5 @@
 # actuatorDynamics
-This is the repository for example MATLAB code to simulate a spring mass damper. It was created for Oregon State University's ME 536 (Actuator Dynamics) class. It is based off Andrew Peekmea's code but is heavily modified and extended.
+This is the repository for example MATLAB code to simulate a spring mass damper. It was created for Oregon State University's ROB 542: Actuator Dynamics class (formerly ME 536). It is based off Andrew Peekmea's code but is heavily modified and extended.
 
 This repo contains some basic utilities (groupTheory and visualization) and three examples of simulating dynamic systems.
 More information on each example can be found in the readme in their respective folder.
