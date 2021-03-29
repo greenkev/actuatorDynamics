@@ -1,4 +1,4 @@
-function [t_vec,X_vec] = paddleSim(X0,p,paddleFun)
+function [t_vec,X_vec,sol_set] = paddleSim(X0,p,paddleFun)
 % Simulates the time response of a spring mass damper
 % Given
 %   X0:  initial state [position velocity]
@@ -30,30 +30,41 @@ options = odeset(...
     'RelTol', 1e-9, ...
     'AbsTol', 1e-9, ...
     'Events',event_fun);
-% Simulate the dynamics over a time interval
-t_vec = [];
-X_vec = [];
+% Setup data structures
+t_vec = t_start:dt:t_end;
+X_vec = zeros(length(X0), length(t_vec));
+sol_set = {};
 
 % Loop simulation until we reach t_end
-while isempty(t_vec) || t_vec(end) < t_end - dt
+while t_start < t_end
     % Run the simulation until t_end or a contact event
-    % te, ye and ie describe time, state and ID of the events that occur
-    [t,X,te,ye,ie] = ode45(param_dyn, t_start:dt:t_end, X0, options);
-    % Setup t_start for the next ode45 call so it is a small time ahead of 
-    % the end of the last call's data so  
-    t_start = t(end) + dt*1e-10;
-    % Concatenate the last ode45 result onto the return vars
-    t_vec = [t_vec; t];
-    X_vec = [X_vec; X];
-    
+    sol = ode45(param_dyn, [t_start,t_end], X0, options);
+    % Concatenate the last ode45 result onto the sol_set cell array. We
+    % can't preallocate because we have no idea how many hybrid transitions
+    % will occur
+    sol_set = [sol_set, {sol}];
+    % Setup t_start for the next ode45 call so it is at the end of the 
+    % last call 
+    t_start = sol.x(end);    
     % Apply the hybrid map, calculate the post impact velocity
-    if ~isempty(ie) && ie(end) == 1 % first event ceiling contact
-        X0 = ceilingContactMap(t(end),X(end,:),p);
+    if ~isempty(sol.ie) && sol.ie(end) == 1 % first event ceiling contact
+        X0 = ceilingContactMap(sol.xe(end),sol.ye(:,end),p);
     end
-    if ~isempty(ie) && ie(end) == 2 % second event paddle contact
-        X0 = paddleContactMap(t(end),X(end,:),p,paddleFun);
+    if ~isempty(sol.ie) && sol.ie(end) == 2 % second event paddle contact
+        X0 = paddleContactMap(sol.xe(end),sol.ye(:,end),p,paddleFun);
     end
 end % simulation while loop
+
+
+% Loop to sample the solution structures and built X_vec
+for idx = 1:length(sol_set)
+    % This sets up a logical vector so we can perform logical indexing
+    t_sample_mask = t_vec >= sol_set{idx}.x(1) & t_vec <= sol_set{idx}.x(end);
+    % Evaluate the idx solution structure only at the applicable times
+    X_eval = deval(sol_set{idx}, t_vec(t_sample_mask));
+    % Assign the result to the correct indicies of the return state array
+    X_vec(:,t_sample_mask) = X_eval;
+end
 
 end % paddleSim
 

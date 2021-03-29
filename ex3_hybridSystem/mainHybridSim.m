@@ -25,7 +25,7 @@ paddleFun = @(t) paddleMotion(t,c);
 % Plot the position of the puck, paddle and ceiling
 figure;
 subplot(2,1,1) 
-plot(t_vec,X_vec(:,1),'-');
+plot(t_vec,X_vec(1,:),'-');
 hold on
 plot(t_vec,paddleFun(t_vec));
 plot(t_vec, p.d_wall*ones(size(t_vec)));
@@ -34,12 +34,12 @@ ylabel('Position (m)')
 legend('Ball Position','Paddle Position','Ceiling Position')
 % Plot the Velocity of the mass
 subplot(2,1,2)
-plot(t_vec,X_vec(:,2),'-');
+plot(t_vec,X_vec(2,:),'-');
 title('Mass Response')
 xlabel('Time (s)')
 ylabel('Velocity (m)')
 
 % Animate the mass
 exportVideo = false;
-playbackRate = 1;
+playbackRate = 2;
 paddleAnimation(p,t_vec,X_vec,paddleFun,exportVideo,playbackRate);

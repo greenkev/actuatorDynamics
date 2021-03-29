@@ -63,7 +63,7 @@ end
 tic;
 for t_plt = t(1):playbackRate*1.0/FPS:t(end)
     
-    x_state = interp1(t,X,t_plt);
+    x_state = interp1(t',X',t_plt);
     x_pos = x_state(1);
 
     % Set axis limits (These will respect the aspect ratio set above)

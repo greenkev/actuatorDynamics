@@ -11,6 +11,7 @@
 *.png
 *.bmp
 *.svg
+*.gif
 # Plots
 *.fig
 
